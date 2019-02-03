@@ -1,0 +1,231 @@
+---
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "VMC Migration Hub - VMware Docs Article Search API"
+basePath: "/hub/migration/vmware-docs"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /advanced-search:
+    post:
+      summary: "Queries articles"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: false
+        schema:
+          $ref: "#/definitions/ArticleSearchRequest"
+        x-exportParamName: "Body"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ArticleSearchResponse"
+        400:
+          description: "Bad request"
+        500:
+          description: "Internal Server Error"
+definitions:
+  ArticleSearchRequest:
+    type: "object"
+    properties:
+      contentSource:
+        type: "array"
+        items:
+          type: "string"
+      emailId:
+        type: "string"
+      format:
+        type: "string"
+      from:
+        type: "string"
+      fromDate:
+        type: "string"
+      informationType:
+        type: "array"
+        items:
+          type: "string"
+      isDocsApp:
+        type: "boolean"
+      language:
+        type: "string"
+      productDoc:
+        type: "boolean"
+      products:
+        type: "array"
+        items:
+          type: "string"
+      publicationMd5:
+        type: "array"
+        items:
+          type: "string"
+      queryString:
+        $ref: "#/definitions/ArticleSearchRequest_queryString"
+      saveSearchIndex:
+        type: "boolean"
+      searchType:
+        type: "string"
+      size:
+        type: "string"
+      sortField:
+        type: "string"
+      sortFieldType:
+        type: "string"
+      target:
+        type: "string"
+      toDate:
+        type: "string"
+    example:
+      searchType: "searchType"
+      toDate: "toDate"
+      format: "format"
+      emailId: "emailId"
+      language: "language"
+      sortFieldType: "sortFieldType"
+      publicationMd5:
+      - "publicationMd5"
+      - "publicationMd5"
+      queryString:
+        mustNot: "mustNot"
+        or: "or"
+        phrase: "phrase"
+        and: "and"
+      informationType:
+      - "informationType"
+      - "informationType"
+      isDocsApp: true
+      products:
+      - "products"
+      - "products"
+      saveSearchIndex: true
+      target: "target"
+      fromDate: "fromDate"
+      contentSource:
+      - "contentSource"
+      - "contentSource"
+      size: "size"
+      productDoc: true
+      sortField: "sortField"
+      from: "from"
+  ArticleSearchResponse:
+    type: "object"
+    properties:
+      topics:
+        type: "array"
+        items:
+          $ref: "#/definitions/Article"
+      status:
+        type: "string"
+      total:
+        type: "number"
+    example:
+      total: 6.02745618307040320615897144307382404804229736328125
+      topics:
+      - highlight:
+          title: "title"
+          content:
+          - "content"
+          - "content"
+        score: 0.80082819046101150206595775671303272247314453125
+        source:
+          last-modified: "last-modified"
+          publication-url: "publication-url"
+          c-contents:
+          - "c-contents"
+          - "c-contents"
+          title: "title"
+          url: "url"
+      - highlight:
+          title: "title"
+          content:
+          - "content"
+          - "content"
+        score: 0.80082819046101150206595775671303272247314453125
+        source:
+          last-modified: "last-modified"
+          publication-url: "publication-url"
+          c-contents:
+          - "c-contents"
+          - "c-contents"
+          title: "title"
+          url: "url"
+      status: "status"
+  Article:
+    type: "object"
+    properties:
+      highlight:
+        $ref: "#/definitions/ArticleHighlight"
+      score:
+        type: "number"
+      source:
+        $ref: "#/definitions/ArticleSource"
+    example:
+      highlight:
+        title: "title"
+        content:
+        - "content"
+        - "content"
+      score: 0.80082819046101150206595775671303272247314453125
+      source:
+        last-modified: "last-modified"
+        publication-url: "publication-url"
+        c-contents:
+        - "c-contents"
+        - "c-contents"
+        title: "title"
+        url: "url"
+  ArticleHighlight:
+    type: "object"
+    properties:
+      title:
+        type: "string"
+      content:
+        type: "array"
+        items:
+          type: "string"
+    example:
+      title: "title"
+      content:
+      - "content"
+      - "content"
+  ArticleSource:
+    type: "object"
+    properties:
+      c-contents:
+        type: "array"
+        items:
+          type: "string"
+      last-modified:
+        type: "string"
+      publication-url:
+        type: "string"
+      title:
+        type: "string"
+      url:
+        type: "string"
+    example:
+      last-modified: "last-modified"
+      publication-url: "publication-url"
+      c-contents:
+      - "c-contents"
+      - "c-contents"
+      title: "title"
+      url: "url"
+  ArticleSearchRequest_queryString:
+    properties:
+      and:
+        type: "string"
+      mustNot:
+        type: "string"
+      or:
+        type: "string"
+      phrase:
+        type: "string"
+    example:
+      mustNot: "mustNot"
+      or: "or"
+      phrase: "phrase"
+      and: "and"
