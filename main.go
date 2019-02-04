@@ -43,8 +43,11 @@ func main() {
 			Action: func (c *cli.Context) error {
 				log.Println("Your home is : " + c.Parent().String("home"))
 				log.Println("base folder is : " + c.String("base"))
-				channelSample()
+
+				done := make(chan bool)
+				go channelSample(done)
 				sampleModule.TestRun()
+				<-done
 				return nil
 			},
 		},
@@ -56,7 +59,7 @@ func main() {
 	}
 }
 
-func channelSample() {
+func channelSample(ch chan bool) {
 	c1 := make(chan int)
 	c2 := make(chan int)
 
@@ -79,6 +82,7 @@ func channelSample() {
 			log.Printf("from c2 : %d\n", val)
 		case <-time.After(10 * time.Second):
 			log.Printf("timeout\n")
+			ch <- true
 			return
 
 		}
